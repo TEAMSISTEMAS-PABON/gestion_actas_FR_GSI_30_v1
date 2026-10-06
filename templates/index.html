@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gestión de Actas</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Gestión de Sistemas de Información</h1>
+    <p>Actas de entrega de equipos</p>
+  </div>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<nav id="menu">
+  <button onclick="mostrar('inicio')">🏠 Inicio</button>
+  <button onclick="mostrar('nueva')">➕ Nueva acta</button>
+  <button onclick="mostrar('actas'); cargarActas()">📄 Consultar actas</button>
+</nav>
+
+<main>
+<section id="inicio" class="panel">
+  <h2>Bienvenido</h2>
+  <p>Aplicación local para diligenciar el formato FR-GSI-30 desde computador o tablet.</p>
+  <button class="primary" onclick="mostrar('nueva')">➕ Crear nueva acta</button>
+</section>
+
+<section id="nueva" class="panel hidden">
+  <div class="panel-title">
+    <h2>Nueva acta de entrega</h2>
+    <span>FR-GSI-30 · Versión 01</span>
+  </div>
+
+  <form id="actaForm">
+    <h3>Datos del trabajador</h3>
+    <div class="grid">
+      <label>Nombre*<input name="nombre_recibe" required></label>
+      <label>Cargo<input name="cargo"></label>
+      <label>Área / Servicio<input name="area_servicio"></label>
+      <label>Ubicación<input name="ubicacion"></label>
+      <label>Usuario de red / IP<input name="ip_usuario"></label>
+      <label>Fecha*<input type="date" name="fecha" required></label>
+    </div>
+
+    <h3>Hardware</h3>
+    <div class="grid">
+      <label>Tipo<input name="tipo" placeholder="PC, portátil..."></label>
+      <label>Marca<input name="marca"></label>
+      <label>Modelo<input name="modelo"></label>
+      <label>Serial<input name="serial"></label>
+      <label>Código / Activo fijo<input name="codigo_activo"></label>
+      <label>Procesador<input name="procesador"></label>
+      <label>Memoria RAM (GB)<input name="ram" type="number" min="0"></label>
+      <label>Disco duro (GB)<input name="disco_gb" type="number" min="0"></label>
+      <label>Tipo de disco<input name="tipo_disco" placeholder="SSD / HDD"></label>
+      <label>Monitor<input name="monitor"></label>
+      <label>Teclado<input name="teclado"></label>
+      <label>Mouse<input name="mouse"></label>
+      <label>Cargador<input name="cargador"></label>
+      <label>Copia de seguridad
+        <select name="copia_seguridad"><option value="">Seleccione</option><option>SI</option><option>NO</option></select>
+      </label>
+    </div>
+
+    <h3>Software</h3>
+    <div class="checks">
+      <label><input type="checkbox" value="Microsoft Office (Word - Excel - PowerPoint)"> Microsoft Office</label>
+      <label><input type="checkbox" value="Antivirus"> Antivirus</label>
+      <label><input type="checkbox" value="Lector de PDF"> Lector de PDF</label>
+      <label><input type="checkbox" value="Compresor de archivos"> Compresor</label>
+      <label><input type="checkbox" value="Navegador"> Navegador</label>
+      <label><input type="checkbox" value="SaludIPS"> SaludIPS</label>
+      <label><input type="checkbox" value="Sisconfig"> Sisconfig</label>
+      <label><input type="checkbox" value="Clinic Manager"> Clinic Manager</label>
+    </div>
+    <input type="hidden" name="software_estandar" id="software_estandar">
+    <div class="grid">
+      <label>Software especial solicitado<input name="software_especial"></label>
+      <label>Otros software solicitado<input name="otros_software"></label>
+    </div>
+
+    <label>Observaciones<textarea name="observaciones" rows="4"></textarea></label>
+
+    <h3>Entrega y recepción</h3>
+    <div class="grid">
+      <label>Nombre quien entrega<input name="nombre_entrega"></label>
+      <label>Correo para enviar PDF<input name="correo" type="email"></label>
+    </div>
+
+    <div class="signatures">
+      <div>
+        <h4>Firma de quien recibe</h4>
+        <canvas id="firmaRecibe"></canvas>
+        <button type="button" class="secondary" onclick="limpiar('firmaRecibe')">Limpiar firma</button>
+      </div>
+      <div>
+        <h4>Firma de quien entrega</h4>
+        <canvas id="firmaEntrega"></canvas>
+        <button type="button" class="secondary" onclick="limpiar('firmaEntrega')">Limpiar firma</button>
+      </div>
+    </div>
+
+    <label class="send"><input type="checkbox" name="enviar_correo" value="1"> Enviar PDF al correo al generar</label>
+
+    <button class="primary big" type="submit">📄 GENERAR ACTA PDF</button>
+    <div id="resultado"></div>
+  </form>
+</section>
+
+<section id="actas" class="panel hidden">
+  <h2>Actas registradas</h2>
+  <div id="tablaActas"></div>
+</section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
